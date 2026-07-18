@@ -9,10 +9,12 @@ import CartRouter from './routes/cartRoute.js';
 import orderRouter from './routes/orderRoute.js';
 import aiRouter from './routes/aiRoute.js';
 import reviewRouter from './routes/reviewRoute.js';
-
+import dns from "dns"
+dns.setServers(["1.1.1.1", "8.8.8.8"])
 // App config
 const app = express();
 const port = process.env.PORT || 4000
+
 connectDB()
 connectCloudinary()
 
@@ -35,6 +37,6 @@ app.get('/', (req,res)=>{
 
 
 app.listen(port, ()=>{
-    console.log("http://localhost:4000/api/user");
-    console.log("http://localhost:4000/api/product");
+    console.log("Server is running on port:"+ port);
+    
 })
