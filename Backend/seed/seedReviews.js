@@ -22,6 +22,8 @@ import mongoose from 'mongoose';
 import connectDB from '../config/mongodb.js';
 import productModel from '../models/productModel.js';
 import reviewModel from '../models/reviewModel.js';
+import dns from "dns"
+dns.setServers(["1.1.1.1", "8.8.8.8"])
 import {
   generateReviewerIdentity,
   generateReviewComment,

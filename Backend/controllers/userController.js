@@ -10,12 +10,17 @@ const createToken = (id) => {
 // Rooute for user Login
 const loginUser = async (req, res) => {
     try {
+        
         const { email, password } = req.body
+        // console.log("aaya hun mai");
 
         const user = await userModel.findOne({ email })
-
+        console.log(user);
+        
         if (!user) {
-            return res.json({ success: false, msg: "User doesn't exists!" })
+            console.log("if blovk");
+            
+            return res.json({ success: false, message: "User doesn't exists!" })
         }
 
         // Checking if the password of user matches!
@@ -36,48 +41,72 @@ const loginUser = async (req, res) => {
 
 // Route for user Register 
 const registerUser = async (req, res) => {
-
     try {
+        const { name, email, password } = req.body;
 
-        const { name, email, password } = req.body
+        // Validate required fields
+        if (!name || !email || !password) {
+            return res.status(400).json({
+                success: false,
+                msg: "All fields are required!"
+            });
+        }
 
-        // Checking if user already exists!
-        const exists = await userModel.findOne({ email })
+        // Check if user already exists
+        const exists = await userModel.findOne({ email });
 
         if (exists) {
-            return res.json({ success: false, msg: "User already exists!" })
+            return res.status(409).json({
+                success: false,
+                msg: "User already exists!"
+            });
         }
 
-        // Validating email format and Strong Password  
+        // Validate email
         if (!validator.isEmail(email)) {
-            return res.json({ success: false, msg: "Enter valid Email!" })
+            return res.status(400).json({
+                success: false,
+                msg: "Enter a valid email!"
+            });
         }
 
+        // Validate password
         if (password.length < 8) {
-            return res.json({ success: false, msg: "Enter Strong Password!" })
+            return res.status(400).json({
+                success: false,
+                msg: "Password must be at least 8 characters long!"
+            });
         }
 
-        // hashing user password!
-        const salt = await bcrypt.genSalt(10)
-        const hashedPassword = await bcrypt.hash(password, salt)
+        // Hash password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
 
-
-        const newUser = new userModel({
+        // Create user
+        const user = await userModel.create({
             name,
             email,
             password: hashedPassword
-        })
+        });
 
-        const user = await newUser.save()
-        const token = createToken(user._id)
-        res.json({ success: true, token })
-    }
-    catch (e) {
-        console.log(e)
-        res.json({ success: false, msg: e.messages })
-    }
-}
+        // Generate token
+        const token = createToken(user._id);
 
+        return res.status(201).json({
+            success: true,
+            msg: "User registered successfully!",
+            token
+        });
+
+    } catch (e) {
+        console.error("Register Error:", e);
+
+        return res.status(500).json({
+            success: false,
+            msg: e.message
+        });
+    }
+};
 // Route for admin Login
 const adminLogin = async (req, res) => {
     try {

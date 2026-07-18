@@ -9,6 +9,7 @@ import CartRouter from './routes/cartRoute.js';
 import orderRouter from './routes/orderRoute.js';
 import aiRouter from './routes/aiRoute.js';
 import reviewRouter from './routes/reviewRoute.js';
+import morgan from 'morgan';
 import dns from "dns"
 dns.setServers(["1.1.1.1", "8.8.8.8"])
 // App config
@@ -21,6 +22,7 @@ connectCloudinary()
 // Middlewares
 app.use(express.json())
 app.use(cors())
+app.use(morgan("dev"))
 
 // api endpoints
 app.use('/api/user', userRouter)
