@@ -3,6 +3,8 @@ import { assets } from "../assets/assets"
 import { NavLink, Link } from "react-router"
 import { ShopContext } from "../context/ShopContext";
 
+// TODO: replace with your actual admin panel URL
+const adminUrl  = import.meta.env.ADMIN_URL
 
 function NavBar() {
 
@@ -43,6 +45,13 @@ function NavBar() {
       </ul>
 
       <div className="flex items-center gap-6">
+        <button
+          onClick={() => window.open(adminUrl, "_blank", "noopener,noreferrer")}
+          className="hidden sm:block text-xs px-3 py-1.5 border border-gray-400 cursor-pointer rounded-full text-gray-700 hover:bg-black hover:text-white hover:border-black transition"
+        >
+          Admin
+        </button>
+
         <img src={assets.search_icon} onClick={ ()=> setShowSearch(!showSearch) } className="w-5 cursor-pointer" alt="" />
 
         <div className="group relative">
