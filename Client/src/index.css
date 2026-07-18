@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Outfit:wght@100..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Prata&display=swap');
+
+@import "tailwindcss";
+
+a.active hr{
+    display: block;
+    transition-property: transform;
+    transition-duration: 500ms;
+    transition-timing-function: ease-in;
+}
+
+*{
+    font-family: Outfit;
+}
+
+.prata-regular {
+  font-family: "Prata", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+::-webkit-scrollbar{
+  display: none;
+}
+
+/* New Arrivals marquee: content scrolls continuously left -> right */
+@keyframes marquee-ltr {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0%); }
+}
+
+.marquee-track{
+  display: flex;
+  width: max-content;
+  animation: marquee-ltr 28s linear infinite;
+}
+
+.marquee-wrapper:hover .marquee-track{
+  animation-play-state: paused;
+}
+
+@media (max-width:640px) {
+    a.active{
+      background-color: black;
+      color:white;
+    }
+}
