@@ -2,9 +2,10 @@ import { useContext, useState } from "react"
 import { assets } from "../assets/assets"
 import { NavLink, Link } from "react-router"
 import { ShopContext } from "../context/ShopContext";
+import dotenv from "dotenv"
 
 // TODO: replace with your actual admin panel URL
-const adminUrl  = import.meta.env.ADMIN_URL
+const adminUrl  = import.meta.env.VITE_ADMIN_URL
 
 function NavBar() {
 
